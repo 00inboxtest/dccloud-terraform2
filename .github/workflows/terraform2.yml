@@ -1,36 +1,36 @@
-name: terraform-automation2
+# name: terraform-automation2
 
-on: 
-  push:
-    paths:
-    - 'examples/**'
+# on: 
+#   push:
+#     paths:
+#     - 'examples/**'
 
-concurrency: 
-  group: ${{ github.action == 'terraform-automation' }}
-  cancel-in-progress: true
+# concurrency: 
+#   group: ${{ github.action == 'terraform-automation' }}
+#   cancel-in-progress: true
 
-defaults:
-  run:
-    shell: bash
-    working-directory: ./examples
+# defaults:
+#   run:
+#     shell: bash
+#     working-directory: ./examples
 
-jobs:
-  terraform_plan:
-    name: 'Terraform Plan'
-    runs-on: ubuntu-latest
-    if: github.event_name == 'push' || github.event_name != 'pull_request'
+# jobs:
+#   terraform_plan:
+#     name: 'Terraform Plan'
+#     runs-on: ubuntu-latest
+#     if: github.event_name == 'push' || github.event_name != 'pull_request'
 
-    steps:      
-      - name: Setup GCP Service Account
-        uses: google-github-actions/setup-gcloud@v0
-        with:
-          version: 'latest'
-          service_account_email: ${{ secrets.GCP_SA_EMAIL }}
-          service_account_key: ${{ secrets.GCP_SA_KEY }}
-          export_default_credentials: true
+#     steps:      
+#       - name: Setup GCP Service Account
+#         uses: google-github-actions/setup-gcloud@v0
+#         with:
+#           version: 'latest'
+#           service_account_email: ${{ secrets.GCP_SA_EMAIL }}
+#           service_account_key: ${{ secrets.GCP_SA_KEY }}
+#           export_default_credentials: true
 
-      - name: Checkout
-        uses: actions/checkout@master
+#       - name: Checkout
+#         uses: actions/checkout@master
 
   #     # Generates an execution plan for Terraform
   #     - name: Terraform Plan
