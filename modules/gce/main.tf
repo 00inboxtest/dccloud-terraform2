@@ -7,7 +7,9 @@ locals {
   region        = data.google_client_config.google_client.region
   zone          = format("%s-%s", local.region, var.zone)
   network_tags  = tolist(toset(var.network_tags))
+
   name_static_vm_ip = format("%s-ext-ip-%s", var.instance_name, var.suffix)
+
   sa_id = format("%s-sa-%s", var.instance_name, var.suffix)
 }
 
@@ -24,6 +26,7 @@ resource "google_project_service" "networking_api" {
 resource "google_service_account" "gce_sa" {
   account_id   = local.sa_id
   display_name = local.sa_id
+
   timeouts {
     create = var.sa_timeout
   }
@@ -81,6 +84,11 @@ resource "google_compute_instance" "gce" {
     update = var.vm_instance_timeout
     delete = var.vm_instance_timeout
   }
+}
+
+resource "google_project_iam_member" "spanner_role" {
+  role   = "roles/spanner.viewer"
+  member = "serviceAccount:${google_service_account.gce_sa.email}"
 }
 
 data "google_client_config" "google_client" {}
