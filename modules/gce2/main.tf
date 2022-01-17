@@ -3,14 +3,12 @@ terraform {
 }
 
 locals {
-  instance_name = format("%s-%s", var.instance_name, var.suffix)
+#  instance_name = format("%s-%s", var.instance_name, var.suffix)
   region        = data.google_client_config.google_client.region
   zone          = format("%s-%s", local.region, var.zone)
   network_tags  = tolist(toset(var.network_tags))
-
-  name_static_vm_ip = format("%s-ext-ip-%s", var.instance_name, var.suffix)
-
-  sa_id = format("%s-sa-%s", var.instance_name, var.suffix)
+  name_static_vm_ip = format("%s-ext-ip-%s", var.suffix)
+  sa_id = format("%s-sa-%s", var.suffix)
 }
 
 resource "google_project_service" "compute_api" {
