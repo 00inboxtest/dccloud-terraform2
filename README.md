@@ -6,4 +6,4 @@
 * GitHub secrets are being used to pass GCP Service Account credentials safely on runtime.
 * Terraform Plan generates a plan file which is further used by terraform apply. This is done to prevent uninformed changes b/w plan and apply.
 * Terraform code must be properly formatted which is considered a good practice else terraform format validation will throw an error and the pipeline would get stopped.
-* Manual Approval before applying terraform apply stage....
+* Manual Approval before applying terraform apply stage
