@@ -23,6 +23,6 @@ module "kylo_ren" {
   suffix           = local.suffix
   gcp_project_id   = var.gcp_project_id
   vpc_network_name = "default"
-  instance_name    = "dev-test1"
+  instance_name    = "dev-test"
   network_tags     = ["http-server", "https-server"]
 }
