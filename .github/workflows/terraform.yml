@@ -21,6 +21,9 @@ jobs:
     if: github.event_name == 'push' || github.event_name != 'pull_request'
 
     steps:
+      - name: Checkout
+        uses: actions/checkout@master
+      
       - name: Setup GCP Service Account
         uses: google-github-actions/setup-gcloud@master
         with:
@@ -29,21 +32,20 @@ jobs:
           service_account_key: ${{ secrets.GCP_SA_KEY }}
           export_default_credentials: true
 
-      - name: Checkout
-        uses: actions/checkout@master
-
-      # Generates an execution plan for Terraform
-      - name: Terraform INIT
-        run: terraform INIT
-
-              # Generates an execution plan for Terraform
-      - name: Terraform validate
-        run: terraform validate
-
       # Generates an execution plan for Terraform
       - name: Terraform Plan
         continue-on-error: true
-        run: terraform plan
+        run: |
+          chmod +x "${GITHUB_WORKSPACE}/.github/workflows/tf_init.sh"
+          "${GITHUB_WORKSPACE}/.github/workflows/tf_init.sh"
+
+          chmod +x "${GITHUB_WORKSPACE}/.github/workflows/tf_fmt.sh"
+          "${GITHUB_WORKSPACE}/.github/workflows/tf_fmt.sh"
+
+          chmod +x "${GITHUB_WORKSPACE}/.github/workflows/tf_plan_check.sh"
+          "${GITHUB_WORKSPACE}/.github/workflows/tf_plan_check.sh"
+          
+          terraform plan -out "tf_plan" -input=false
 
       - name: Upload TF Plan
         uses: actions/upload-artifact@v2
@@ -86,4 +88,5 @@ jobs:
         "${GITHUB_WORKSPACE}/.github/workflows/tf_init.sh"
         terraform show "tf_plan"
         terraform apply "tf_plan"
+
 
