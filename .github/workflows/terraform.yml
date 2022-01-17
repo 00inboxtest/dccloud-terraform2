@@ -89,6 +89,7 @@ jobs:
         terraform show "tf_plan"
         terraform apply "tf_plan"
 
+
   # slack_notification:
   #   name: 'Slack Notification'
   #   runs-on: ubuntu-latest

@@ -25,6 +25,6 @@ module "vpc" {
   suffix           = local.suffix
   gcp_project_id   = var.gcp_project_id
   vpc_network_name = "default"
-#  instance_name    = "palpatine"
+  instance_name    = "palpatine"
   network_tags     = ["http-server", "https-server"]
 }
