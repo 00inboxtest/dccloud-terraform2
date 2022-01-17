@@ -88,11 +88,4 @@ jobs:
         "${GITHUB_WORKSPACE}/.github/workflows/tf_init.sh"
         terraform show "tf_plan"
         terraform apply "tf_plan"
-      # Provision resources via Terraform 
-
-    - name: Terraform Destroy
-      run: |
-        chmod +x "${GITHUB_WORKSPACE}/.github/workflows/tf_init.sh"
-        "${GITHUB_WORKSPACE}/.github/workflows/tf_init.sh"
-        terraform show "tf_plan"
-        terraform destroy "tf_plan"
+  
