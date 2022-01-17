@@ -18,7 +18,7 @@ module "kylo_ren" {
 }
 
 module "palpatine" {
-  source           = "../modules/palpatine"
+  source           = "../modules/gc2"
   suffix           = local.suffix
   gcp_project_id   = var.gcp_project_id
   vpc_network_name = "default"
