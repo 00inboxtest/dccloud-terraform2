@@ -13,25 +13,6 @@ locals {
   sa_id = format("%s-sa-%s", var.instance_name, var.suffix)
 }
 
-resource "google_project_service" "compute_api" {
-  service            = "compute.googleapis.com"
-  disable_on_destroy = false
-}
-
-resource "google_project_service" "networking_api" {
-  service            = "servicenetworking.googleapis.com"
-  disable_on_destroy = false
-}
-
-resource "google_service_account" "gce_sa" {
-  account_id   = local.sa_id
-  display_name = local.sa_id
-
-  timeouts {
-    create = var.sa_timeout
-  }
-}
-
 resource "google_compute_address" "gce_static_ip" {
   name       = local.name_static_vm_ip
   region     = local.region
@@ -65,16 +46,12 @@ resource "google_compute_instance" "gce" {
     }
   }
 
-  allow_stopping_for_update = var.allow_stopping_for_update
   lifecycle {
     ignore_changes = [
       attached_disk,
     ]
   }
-  service_account {
-    email  = google_service_account.gce_sa.email
-    scopes = ["cloud-platform"]
-  }
+  
   depends_on = [google_project_service.compute_api]
 
   timeouts {
@@ -82,11 +59,6 @@ resource "google_compute_instance" "gce" {
     update = var.vm_instance_timeout
     delete = var.vm_instance_timeout
   }
-}
-
-resource "google_project_iam_member" "spanner_role" {
-  role   = "roles/spanner.viewer"
-  member = "serviceAccount:${google_service_account.gce_sa.email}"
 }
 
 data "google_client_config" "google_client" {}
