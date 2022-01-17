@@ -2,7 +2,7 @@
 
 variable "gcp_project_id" {
   type        = string
-  default     = "custom-valve-332208"
+  default     = "cloudorbit"
   description = "Id of the GCP project"
 }
 
