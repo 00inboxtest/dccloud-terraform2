@@ -77,8 +77,6 @@ resource "google_compute_instance" "gce" {
   }
   depends_on = [google_project_service.compute_api]
 
-  metadata_startup_script = file("${path.module}/script.sh")
-
   timeouts {
     create = var.vm_instance_timeout
     update = var.vm_instance_timeout
