@@ -16,4 +16,3 @@ module "kylo_ren" {
   instance_name    = "kylo-ren"
   network_tags     = ["http-server", "https-server"]
 }
-

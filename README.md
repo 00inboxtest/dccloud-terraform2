@@ -10,6 +10,3 @@ Follow Medium blog for steps: [Automating Terraform with GitHub Actions](https:/
 * Terraform Plan generates a plan file which is further used by terraform apply. This is done to prevent uninformed changes b/w plan and apply.
 * Terraform code must be properly formatted which is considered a good practice else terraform format validation will throw an error and the pipeline would get stopped.
 * Manual Approval before applying terraform apply stage.
-
-
-_Contributions are most welcome_
