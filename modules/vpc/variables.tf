@@ -9,28 +9,11 @@ variable "suffix" {
   }
 }
 
-variable "instance_name" {
-  type        = string
-  description = "A unique name for the GCE resource. Changing this forces a new resource to be created."
-}
-
 ## --- OPTIONAL PARAMETERS ------------------------------------------------------------------------------------------------
 
 variable "gcp_project_id" {
   type        = string
   description = "Project in which GCE Resources will be created."
-}
-
-variable "zone" {
-  type        = string
-  default     = "b"
-  description = "The zone that the machine should be created in."
-}
-
-variable "network_tags" {
-  type        = list(string)
-  default     = []
-  description = "A list of network tags to attach to the instance."
 }
 
 variable "vpc_network_name" {
