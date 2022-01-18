@@ -1,5 +1,5 @@
-output "instance_name" {
-  value       = local.instance_name
+output "network_name" {
+  value       = local.network_name
   description = "Name of GCE VM Instance."
 }
 
