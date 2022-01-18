@@ -43,5 +43,3 @@ module "vpc" {
         subnet-02 = []
     }
 }
-
-data "google_client_config" "google_client" {}
