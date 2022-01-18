@@ -25,7 +25,7 @@ locals {
 
 module "custom-vpc" {
   source = "../modules/vpc"
-#  name = "devTest"
-#  project     = "custom-valve-332208"
-#  region      = "us-east1"
+  name = "devTest"
+  project_id     = "custom-valve-332208"
+  region      = "us-east1"
 }
