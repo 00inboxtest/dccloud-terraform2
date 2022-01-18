@@ -23,7 +23,7 @@ locals {
 #  vpc_network_name = "custom-vpc2"
 #}
 
-module "management_network" {
+module "custom-vpc" {
   source = "../modules/vpc"
 #  name = "devTest"
 #  project     = "custom-valve-332208"
