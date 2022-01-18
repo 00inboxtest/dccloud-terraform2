@@ -1,6 +1,6 @@
 resource "google_compute_network" "network" {
     name        = "custom-vpc"
-    project     = "${var.project_id}"
+    project     = "custom-valve-332208"
     subnetworks = [
         {
             region           = "us-east1"
@@ -16,5 +16,4 @@ resource "google_compute_network" "network" {
 
     // pass this when creating custom subnetworks
     auto_create_subnetworks = "false"
-
 }
