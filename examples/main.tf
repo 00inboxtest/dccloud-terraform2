@@ -19,7 +19,6 @@ locals {
 
 module "custom-vpc" {
   source           = "../modules/vpc"
-  suffix           = local.suffix
   gcp_project_id   = var.gcp_project_id
-  vpc_network_name = "custom-vpc"
+  vpc_network_name = "custom-vpc2"
 }
