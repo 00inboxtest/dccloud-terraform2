@@ -1,21 +1,10 @@
-terraform {
-  required_version = ">= 0.13.1" # see https://releases.hashicorp.com/terraform/
-}
-
-resource "google_project_service" "compute_api" {
-  service            = "compute.googleapis.com"
-  disable_on_destroy = false
-}
-
-resource "google_project_service" "networking_api" {
-  service            = "servicenetworking.googleapis.com"
-  disable_on_destroy = false
-}
-
 module "vpc" {
-    source = "github.com/terraform-google-modules/terraform-google-network"
+    source  = "terraform-google-modules/network/google"
+    version = "~> 3.0"
+
     project_id   = "custom-valve-332208"
-    network_name = "custom-vpc2"
+    network_name = "example-vpc"
+    routing_mode = "GLOBAL"
 
     subnets = [
         {
@@ -27,9 +16,19 @@ module "vpc" {
             subnet_name           = "subnet-02"
             subnet_ip             = "10.10.20.0/24"
             subnet_region         = "us-west1"
-            subnet_private_access = true
-            subnet_flow_logs      = true
+            subnet_private_access = "true"
+            subnet_flow_logs      = "true"
+            description           = "This subnet has a description"
         },
+        {
+            subnet_name               = "subnet-03"
+            subnet_ip                 = "10.10.30.0/24"
+            subnet_region             = "us-west1"
+            subnet_flow_logs          = "true"
+            subnet_flow_logs_interval = "INTERVAL_10_MIN"
+            subnet_flow_logs_sampling = 0.7
+            subnet_flow_logs_metadata = "INCLUDE_ALL_METADATA"
+        }
     ]
 
     secondary_ranges = {
@@ -42,4 +41,21 @@ module "vpc" {
 
         subnet-02 = []
     }
-}
+
+    routes = [
+        {
+            name                   = "egress-internet"
+            description            = "route through IGW to access internet"
+            destination_range      = "0.0.0.0/0"
+            tags                   = "egress-inet"
+            next_hop_internet      = "true"
+        },
+        {
+            name                   = "app-proxy"
+            description            = "route through proxy to reach app"
+            destination_range      = "10.50.10.0/24"
+            tags                   = "app-proxy"
+            next_hop_instance      = "app-proxy-instance"
+            next_hop_instance_zone = "us-west1-a"
+        },
+    ]
