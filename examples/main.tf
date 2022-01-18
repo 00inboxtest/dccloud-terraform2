@@ -1,31 +1,35 @@
-resource "random_string" "launch_id" {
-  length  = 4
-  special = false
-  upper   = false
+// Configure the Google Cloud provider
+provider "google" {
+ project     = "${var.gcp_project}"
+ region      = "${var.region}"
+}
+// Create VPC
+resource "google_compute_network" "vpc" {
+ name                    = "${var.name}-vpc"
+ auto_create_subnetworks = "false"
 }
 
-locals {
-  suffix = format("%s-%s", "tf", "2")
+// Create Subnet
+resource "google_compute_subnetwork" "subnet" {
+ name          = "${var.name}-subnet"
+ ip_cidr_range = "${var.subnet_cidr}"
+ network       = "${var.name}-vpc"
+ depends_on    = ["google_compute_network.vpc"]
+ region      = "${var.region}"
 }
+// VPC firewall configuration
+resource "google_compute_firewall" "firewall" {
+  name    = "${var.name}-firewall"
+  network = "${google_compute_network.vpc.name}"
 
-#module "kylo_ren" {
-#  source           = "../modules/gce"
-#  suffix           = local.suffix
-#  gcp_project_id   = var.gcp_project_id
-#  vpc_network_name = "default"
-#  instance_name    = "kylo-ren"
-#  network_tags     = ["http-server", "https-server"]
-#}
+  allow {
+    protocol = "icmp"
+  }
 
-#module "custom-vpc" {
-#  source           = "../modules/vpc2"
-#  gcp_project_id   = "custom-valve-332208"
-#  vpc_network_name = "custom-vpc2"
-#}
+  allow {
+    protocol = "tcp"
+    ports    = ["22"]
+  }
 
-module "management_network" {
-  source = "../modules/vpc2"
-  name = "devTest"
-  project     = "custom-valve-332208"
-  region      = "us-east1"
+  source_ranges = ["0.0.0.0/0"]
 }
