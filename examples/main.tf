@@ -24,9 +24,8 @@ locals {
 #}
 
 module "management_network" {
-    
   source = "../modules/vpc2"
-  name_prefix = "devTest"
+  name = "devTest"
   project     = "custom-valve-332208"
   region      = "us-east1"
 }
