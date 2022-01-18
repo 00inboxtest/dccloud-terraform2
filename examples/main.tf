@@ -25,10 +25,8 @@ locals {
 
 module "custom-vpc" {
   source = "../modules/vpc"
-  name = "devTest"
-  project_id     = "custom-valve-332208"
-  region      = "us-east1"
-  # sdahvdjhsfjdf
+#  name = "devTest"
+#  project_id     = "custom-valve-332208"
+#  region      = "us-east1"
 }
 
-#sjdfsdvf sdfjdsf
