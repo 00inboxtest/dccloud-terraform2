@@ -3,6 +3,7 @@ provider "google" {
  project     = "${var.gcp_project}"
  region      = "${var.region}"
 }
+
 // Create VPC
 resource "google_compute_network" "vpc" {
  name                    = "${var.name}-vpc"
