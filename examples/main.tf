@@ -19,6 +19,6 @@ locals {
 
 module "custom-vpc" {
   source           = "../modules/vpc"
-  gcp_project_id   = var.gcp_project_id
+  gcp_project_id   = "custom-valve-332208"
   vpc_network_name = "custom-vpc2"
 }
