@@ -1,9 +1,3 @@
-// Configure the Google Cloud provider
-provider "google" {
- project     = "${var.gcp_project}"
- region      = "${var.region}"
-}
-
 // Create VPC
 resource "google_compute_network" "vpc" {
  name                    = "${var.name}-vpc"
@@ -18,6 +12,7 @@ resource "google_compute_subnetwork" "subnet" {
  depends_on    = ["google_compute_network.vpc"]
  region      = "${var.region}"
 }
+
 // VPC firewall configuration
 resource "google_compute_firewall" "firewall" {
   name    = "${var.name}-firewall"
