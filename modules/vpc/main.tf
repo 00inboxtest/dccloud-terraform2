@@ -59,3 +59,4 @@ module "vpc" {
             next_hop_instance_zone = "us-west1-a"
         },
     ]
+}
