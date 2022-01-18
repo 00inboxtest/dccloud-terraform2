@@ -2,6 +2,16 @@ terraform {
   required_version = ">= 0.13.1" # see https://releases.hashicorp.com/terraform/
 }
 
+resource "google_project_service" "compute_api" {
+  service            = "compute.googleapis.com"
+  disable_on_destroy = false
+}
+
+resource "google_project_service" "networking_api" {
+  service            = "servicenetworking.googleapis.com"
+  disable_on_destroy = false
+}
+
 module "vpc" {
     source = "github.com/terraform-google-modules/terraform-google-network"
     project_id   = "custom-valve-332208"
@@ -33,3 +43,5 @@ module "vpc" {
         subnet-02 = []
     }
 }
+
+data "google_client_config" "google_client" {}
