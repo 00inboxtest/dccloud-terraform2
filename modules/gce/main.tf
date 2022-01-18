@@ -7,69 +7,51 @@ locals {
   region        = data.google_client_config.google_client.region
   zone          = format("%s-%s", local.region, var.zone)
   network_tags  = tolist(toset(var.network_tags))
-
   name_static_vm_ip = format("%s-ext-ip-%s", var.instance_name, var.suffix)
-
   sa_id = format("%s-sa-%s", var.instance_name, var.suffix)
 }
 
-resource "google_project_service" "compute_api" {
-  service            = "compute.googleapis.com"
-  disable_on_destroy = false
-}
-
-resource "google_project_service" "networking_api" {
-  service            = "servicenetworking.googleapis.com"
-  disable_on_destroy = false
-}
-
-resource "google_service_account" "gce_sa" {
+resource "google_service_account" "default" {
   account_id   = local.sa_id
   display_name = local.sa_id
 }
 
-resource "google_compute_address" "gce_static_ip" {
-  name       = local.name_static_vm_ip
-  region     = local.region
-  depends_on = [google_project_service.networking_api]
+resource "google_compute_instance" "default" {
+  name         = "test"
+  machine_type = "e2-medium"
+  zone         = "us-central1-a"
 
-  timeouts {
-    create = var.static_ip_timeout
-    delete = var.static_ip_timeout
-  }
-}
-
-resource "google_compute_instance" "gce" {
-  project      = var.gcp_project_id
-  name         = local.instance_name
-  machine_type = var.instance_machine_type
-  zone         = local.zone
-  tags         = local.network_tags
+  tags = ["foo", "bar"]
 
   boot_disk {
     initialize_params {
-      size  = var.boot_disk_size
-      type  = var.boot_disk_type
-      image = var.boot_disk_image
+      image = "debian-cloud/debian-9"
     }
   }
+
+  // Local SSD disk
+  scratch_disk {
+    interface = "SCSI"
+  }
+
   network_interface {
-    network = var.vpc_network_name
+    network = "default"
+
     access_config {
-     
+      // Ephemeral public IP
     }
   }
+
+  metadata = {
+    foo = "bar"
+  }
+
+  metadata_startup_script = "echo hi > /test.txt"
 
   service_account {
     # Google recommends custom service accounts that have cloud-platform scope and permissions granted via IAM Roles.
-    email  = google_service_account.gce_sa.email
+    email  = google_service_account.default.email
     scopes = ["cloud-platform"]
-  }
-
-  timeouts {
-    create = var.vm_instance_timeout
-    update = var.vm_instance_timeout
-    delete = var.vm_instance_timeout
   }
 }
 
