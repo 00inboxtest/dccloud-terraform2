@@ -4,8 +4,8 @@ terraform {
 
 module "vpc" {
     source = "github.com/terraform-google-modules/terraform-google-network"
-    project_id   = var.gcp_project_id
-    network_name = var.vpc_network_name
+    project_id   = "custom-valve-332208"
+    network_name = "custom-vpc2"
 
     subnets = [
         {
