@@ -26,10 +26,6 @@ resource "google_project_service" "networking_api" {
 resource "google_service_account" "gce_sa" {
   account_id   = local.sa_id
   display_name = local.sa_id
-
-  timeouts {
-    create = var.sa_timeout
-  }
 }
 
 resource "google_compute_address" "gce_static_ip" {
@@ -57,12 +53,17 @@ resource "google_compute_instance" "gce" {
       image = var.boot_disk_image
     }
   }
+  network_interface {
+    network = var.vpc_network_name
+    access_config {
+     
+    }
+  }
 
-
-  lifecycle {
-    ignore_changes = [
-      attached_disk,
-    ]
+  service_account {
+    # Google recommends custom service accounts that have cloud-platform scope and permissions granted via IAM Roles.
+    email  = google_service_account.gce_sa.email
+    scopes = ["cloud-platform"]
   }
 
   timeouts {
