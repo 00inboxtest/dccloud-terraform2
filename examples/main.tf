@@ -12,9 +12,9 @@ locals {
 #}
 
 
-module "vpc_network" {
-  source = "../modules/vpc"
-}
+#module "vpc_network" {
+#  source = "../modules/vpc"
+#}
 
 #module "iam" {
 #  source           = "../modules/iam"
