@@ -17,11 +17,11 @@ module "kylo_ren" {
   network_tags     = ["http-server", "https-server"]
 }
 
-#module "custom-vpc" {
-#  source           = "../modules/vpc2"
+module "custom-vpc" {
+  source           = "../modules/vpc2"
 #  gcp_project_id   = "custom-valve-332208"
 #  vpc_network_name = "custom-vpc2"
-#}
+}
 
 #module "custom-vpc" {
 #  source = "../modules/vpc"
