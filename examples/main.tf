@@ -17,7 +17,7 @@ locals {
 #  network_tags     = ["http-server", "https-server"]
 #}
 
-#module "custom-vpc" {
-#  source = "../modules/vpc"
-#}
+module "custom-vpc" {
+  source = "../modules/vpc"
+}
 
