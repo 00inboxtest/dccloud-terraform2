@@ -16,14 +16,14 @@ locals {
 #  suffix           = local.suffix
 #}
 
-#module "vpc2" {
-#  source           = "../modules/vpc2"
-#  suffix           = local.suffix
-#  name             = "terraform-networks"
-#  region           = "europe-west1"
-#  ip_cidr_range    = 10.2.0.0/16
-#}
-
-module "vpc_network" {
-  source = "../modules/vpc"
+module "vpc2" {
+  source           = "../modules/vpc2"
+  suffix           = local.suffix
+  name             = "terraform-networks2"
+  region           = "europe-west1"
+  ip_cidr_range    = 10.2.0.0/16
 }
+
+#module "vpc_network" {
+#  source = "../modules/vpc"
+#}
