@@ -17,7 +17,7 @@ resource "google_compute_subnetwork" "pub-subnet" {
      ip_cidr_range = "${local.pub-subnet-cidr}"
      network       = "${local.name}-vpc"
      depends_on    = ["google_compute_network.vpc"]
-     region        = ${local.region}
+     region        = "${local.region}"
     }
 
 ## Create private subnet
@@ -27,6 +27,6 @@ resource "google_compute_subnetwork" "private-subnet" {
      ip_cidr_range = "${local.private-subnet-cidr}"
      network       = "${local.name}-vpc"
      depends_on    = ["google_compute_network.vpc"]
-     region        = ${local.region}
+     region        = "${local.region}"
      private_ip_google_access = "true"
     }

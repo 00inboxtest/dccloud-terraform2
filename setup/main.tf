@@ -18,7 +18,6 @@ locals {
 
 module "vpc2" {
   source           = "../modules/vpc2"
-  suffix           = local.suffix
 }
 
 #module "vpc_network" {
