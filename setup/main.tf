@@ -16,10 +16,10 @@ locals {
 #  suffix           = local.suffix
 #}
 
-module "vpc2" {
-  source           = "../modules/vpc2"
-}
-
-#module "vpc_network" {
-#  source = "../modules/vpc"
+#module "vpc2" {
+#  source           = "../modules/vpc2"
 #}
+
+module "vpc_network" {
+  source = "../modules/vpc"
+}
