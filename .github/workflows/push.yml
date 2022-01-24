@@ -1,4 +1,4 @@
-name: 'Terraform Pull Request'
+name: 'Terraform Push code'
 
 on:
   push:
