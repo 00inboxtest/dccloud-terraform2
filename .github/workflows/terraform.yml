@@ -3,7 +3,7 @@ name: Terraform Gitaction
 'on':
   push:
     branches:
-      - dev
+      - test
   pull_request: null
 
 jobs:
@@ -23,6 +23,11 @@ jobs:
   terraform_init:
     name: Terraform Init
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./setup
+    needs: terraform 
     steps:
       - name: Checkout
         uses: actions/checkout@master
@@ -34,6 +39,11 @@ jobs:
   terraform_plan:
     name: Terraform Plan
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./setup
+    needs: terraform
     steps:
       - name: Checkout
         uses: actions/checkout@master
@@ -46,12 +56,17 @@ jobs:
   terraform_pull_request:
     name: Terraform Pull Request
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./setup
+    needs: terraform
     steps:
       - name: Checkout
         uses: actions/checkout@master
       - name: Update Pull Request
         uses: actions/github-script@0.9.0
-        if: github.event_name == 'pull_request'
+        # if: github.event_name == 'pull_request'
         env:
           PLAN: |-
             terraform
@@ -63,6 +78,11 @@ jobs:
   terraform_apply:
     name: Terraform Apply
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./setup
+    needs: terraform
     steps:
       - name: Checkout
         uses: actions/checkout@master
