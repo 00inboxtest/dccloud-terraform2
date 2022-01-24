@@ -8,7 +8,7 @@ name: Terraform Gitaction
 
 jobs:
   terraform:
-    name: Terraform
+    name: Terraform Setup
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -27,7 +27,7 @@ jobs:
       run:
         shell: bash
         working-directory: ./setup
-    needs: terraform 
+    # needs: terraform 
     steps:
       - name: Checkout
         uses: actions/checkout@master
@@ -43,7 +43,7 @@ jobs:
       run:
         shell: bash
         working-directory: ./setup
-    needs: terraform
+    # needs: terraform
     steps:
       - name: Checkout
         uses: actions/checkout@master
