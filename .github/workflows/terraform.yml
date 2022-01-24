@@ -27,12 +27,12 @@ jobs:
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v1
 
-    # Terraform Formatting
-    - name: Terraform Format
-      id: fmt
-      run: terraform fmt -check
-      env:
-        GOOGLE_CREDENTIALS: ${{ secrets.GCP_SA_KEY }}
+    # # Terraform Formatting
+    # - name: Terraform Format
+    #   id: fmt
+    #   run: terraform fmt -check
+    #   env:
+    #     GOOGLE_CREDENTIALS: ${{ secrets.GCP_SA_KEY }}
 
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
     - name: Terraform Init
@@ -94,8 +94,8 @@ jobs:
         shell: bash
         working-directory: ./setup  ########################please chnage folder name as per github repo####################
     needs: terraform
-#    environment:
-#      name: tf_apply  ########################please set environment secret in github repo settings and change name accordingly####################
+    environment:
+      name: tf_apply  ########################please set environment secret in github repo settings and change name accordingly####################
     steps:
       - name: Checkout
         uses: actions/checkout@master
@@ -107,6 +107,6 @@ jobs:
 
       - name: Terraform Apply
         if: github.ref == 'refs/heads/dev' && github.event_name == 'push'
-        run: terraform apply -auto-approve
+        run: terraform apply
         env:
           GOOGLE_CREDENTIALS: ${{ secrets.GCP_SA_KEY }}

@@ -19,6 +19,6 @@ module "vpc2" {
   source           = "../modules/vpc2"
 }
 
-module "vpc" {
-  source = "../modules/vpc"
-}
+#module "vpc" {
+#  source = "../modules/vpc"
+#}
