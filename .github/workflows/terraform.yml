@@ -16,7 +16,7 @@ jobs:
     defaults:
       run:
         shell: bash
-        working-directory: ./setup    ########################please chnage folder name as per github repo####################
+        working-directory: ./setup    #######please chnage folder name as per github repo####################
 
     steps:
     # Checkout the repository to the GitHub Actions runner
