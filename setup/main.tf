@@ -11,14 +11,14 @@ locals {
 #  network_tags     = ["http-server", "https-server"]
 #}
 
-module "iam" {
-  source           = "../modules/iam"
-}
+#module "iam" {
+#  source           = "../modules/iam"
+#}
 
 #module "vpc2" {
 #  source           = "../modules/vpc2"
 #}
 
-#module "vpc" {
-#  source = "../modules/vpc"
-#}
+module "vpc" {
+  source = "../modules/vpc"
+}
