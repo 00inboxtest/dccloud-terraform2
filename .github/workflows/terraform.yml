@@ -3,7 +3,9 @@ name: 'Terraform CI'
 on:
   push:
     branches:
-    - main
+    - dev
+    - feature
+
 
   pull_request:
 
@@ -26,8 +28,13 @@ jobs:
     # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v1
-      with:
-          terraform_wrapper: false
+
+    # Terraform Formatting
+    - name: Terraform Format
+      id: fmt
+      run: terraform fmt -check
+      env:
+        GOOGLE_CREDENTIALS: ${{ secrets.GCP_SA_KEY }}
 
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
     - name: Terraform Init
@@ -35,34 +42,52 @@ jobs:
       env:
         GOOGLE_CREDENTIALS: ${{ secrets.GCP_SA_KEY }}
 
-    # Generates an execution plan for Terraform
-    - name: Terraform Plan
-      run: terraform plan -lock=false -out terraform.plan
+    # Terraform validate
+    - name: Terraform validate
+      id: validate
+      run: terraform validate -no-color
       env:
         GOOGLE_CREDENTIALS: ${{ secrets.GCP_SA_KEY }}
 
+    # Generates an execution plan for Terraform
+    - name: Terraform Plan
+      if: github.event_name == 'pull_request'
+      run: terraform plan -no-color
+      env:
+        GOOGLE_CREDENTIALS: ${{ secrets.GCP_SA_KEY }}
 
       # On push to main, build or change infrastructure according to Terraform configuration files
       # Note: It is recommended to set up a required "strict" status check in your repository for "Terraform Cloud". See the documentation on "strict" required status checks for more information: https://help.github.com/en/github/administering-a-repository/types-of-required-status-checks
 
-    # generate plain output
-    - name: Terraform genrate plan with txt file
-      run: terraform show -no-color terraform.plan > terraform.text
+    - name: Update Pull Request
+      uses: actions/github-script@0.9.0
+      if: github.event_name == 'pull_request'
       env:
-        GOOGLE_CREDENTIALS: ${{ secrets.GCP_SA_KEY }}
-
-      # showing an execution plan for Terraform
-    - name: Terraform show 
-      run: terraform show -json terraform.plan > terraform.json
-      env:
-        GOOGLE_CREDENTIALS: ${{ secrets.GCP_SA_KEY }}
-
-    - name: Terraform show
-      uses: ahmadnassri/action-terraform-report@v3
+        PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
       with:
-          # tell the action the plan outputs
-          terraform-text: ${{ github.workspace }}/terraform.text
-          terraform-json: ${{ github.workspace }}/terraform.json
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        script: |
+          const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
+          #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
+          #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
+          #### Terraform Validation 🤖\`${{ steps.validate.outcome }}\`
+
+          <details><summary>Show Plan</summary>
+
+          \`\`\`\n
+          Devlopment
+          \`\`\`
+
+          </details>
+
+          *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
+
+          github.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: output
+          })
 
   terraform_apply:
     name: 'Terraform Apply'
@@ -84,7 +109,7 @@ jobs:
           GOOGLE_CREDENTIALS: ${{ secrets.GCP_SA_KEY }}
 
       - name: Terraform Apply
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        if: github.ref == 'refs/heads/dev' && github.event_name == 'push'
         run: terraform apply -auto-approve
         env:
           GOOGLE_CREDENTIALS: ${{ secrets.GCP_SA_KEY }}
