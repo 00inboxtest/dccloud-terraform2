@@ -7,7 +7,7 @@ name: Terraform Gitaction
   pull_request: null
 
 jobs:
-  terraform:
+  terraform:   ### Terraform plan Setup ###
     name: Terraform Setup
     runs-on: ubuntu-latest
     defaults:
@@ -20,8 +20,8 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
 
-  terraform_init:
-    name: Terraform Init
+  terraform_init: ### Terraform plan Initialize ###
+    name: Terraform Initialize
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -36,8 +36,8 @@ jobs:
         env:
           GOOGLE_CREDENTIALS: '${{ secrets.GCP_SA_KEY }}'
 
-  terraform_format:
-    name: Terraform Plan format
+  terraform_format: ### Terraform plan formatting ###
+    name: Terraform Plan formating
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -53,7 +53,7 @@ jobs:
         env:
           GOOGLE_CREDENTIALS: '${{ secrets.GCP_SA_KEY }}'
 
-  terraform_plan:
+  terraform_plan: ### Terraform plan creating ###
     name: Terraform Plan
     runs-on: ubuntu-latest
     defaults:
@@ -70,7 +70,7 @@ jobs:
         env:
           GOOGLE_CREDENTIALS: '${{ secrets.GCP_SA_KEY }}'
 
-  terraform_plan_validate:
+  terraform_plan_validate: ### Terraform plan validate ###
     name: Terraform Plan validate
     runs-on: ubuntu-latest
     defaults:
@@ -87,7 +87,7 @@ jobs:
         env:
           GOOGLE_CREDENTIALS: '${{ secrets.GCP_SA_KEY }}'
 
-  terraform_pull_request:
+  terraform_plan_show: ### Terraform plan Show ###
     name: Terraform Plan show
     runs-on: ubuntu-latest
     defaults:
@@ -100,11 +100,11 @@ jobs:
         uses: actions/checkout@master
       - name: Terraform Plan show
         id: show
-        run: terraform show -json -no-color
+        run: terraform show -json
         env:
           GOOGLE_CREDENTIALS: '${{ secrets.GCP_SA_KEY }}'
      
-  # terraform_apply:
+  # terraform_apply: ### Terraform plan deploy ###
   #   name: Terraform Apply
   #   runs-on: ubuntu-latest
   #   defaults:
