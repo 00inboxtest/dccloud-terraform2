@@ -11,15 +11,15 @@ locals {
 #  network_tags     = ["http-server", "https-server"]
 #}
 
-#module "iam" {
-#  source           = "../modules/iam"
-#  suffix           = local.suffix
-#}
+module "iam" {
+  source           = "../modules/iam"
+  suffix           = local.suffix
+}
 
 #module "vpc2" {
 #  source           = "../modules/vpc2"
 #}
 
-module "vpc" {
-  source = "../modules/vpc"
-}
+#module "vpc" {
+#  source = "../modules/vpc"
+#}

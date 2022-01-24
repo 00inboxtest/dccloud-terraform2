@@ -1,35 +1,6 @@
-terraform {
-  required_version = ">= 0.13.1" # see https://releases.hashicorp.com/terraform/
+resource "google_project_iam_custom_role" "my-custom-role" {
+  role_id     = "myCustomRole"
+  title       = "My Custom Role"
+  description = "A description"
+  permissions = ["iam.roles.list", "iam.roles.create", "iam.roles.delete"]
 }
-
-locals {
-  region        = data.google_client_config.google_client.region
-  zone          = format("%s-%s", local.region, var.zone)
-  sa_id = format("%s-sa-%s", "Tf", var.suffix)
-}
-
-resource "google_project_service" "compute_api" {
-  service            = "compute.googleapis.com"
-  disable_on_destroy = false
-}
-
-resource "google_project_service" "networking_api" {
-  service            = "servicenetworking.googleapis.com"
-  disable_on_destroy = false
-}
-
-resource "google_service_account" "gce_sa" {
-  account_id   = local.sa_id
-  display_name = local.sa_id
-
-  timeouts {
-    create = var.sa_timeout
-  }
-}
-
-resource "google_project_iam_member" "spanner_role" {
-  role   = "roles/spanner.viewer"
-  member = "serviceAccount:${google_service_account.gce_sa.email}"
-}
-
-data "google_client_config" "google_client" {}
