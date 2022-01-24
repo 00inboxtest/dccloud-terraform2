@@ -3,7 +3,7 @@ name: Terraform Gitaction
 'on':
   push:
     branches:
-      - test
+      - dev
   pull_request: null
 
 jobs:
@@ -116,24 +116,24 @@ jobs:
         env:
           GOOGLE_CREDENTIALS: '${{ secrets.GCP_SA_KEY }}'
      
-  # terraform_apply: ### Terraform plan deploy ###
-  #   name: Terraform Apply
-  #   runs-on: ubuntu-latest
-  #   defaults:
-  #     run:
-  #       shell: bash
-  #       working-directory: ./setup
-  #   needs: terraform
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@master
-  #     - name: Terraform Init
-  #       run: terraform init
-  #       env:
-  #         GOOGLE_CREDENTIALS: '${{ secrets.GCP_SA_KEY }}'
-  #     - name: Terraform Apply
-  #       if: github.ref == 'refs/heads/dev' && github.event_name == 'push'
-  #       run: terraform apply -auto-approve
-  #       env:
-  #         GOOGLE_CREDENTIALS: '${{ secrets.GCP_SA_KEY }}'
+  terraform_apply: ### Terraform plan deploy ###
+    name: Terraform Apply
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./setup
+    needs: terraform
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+      - name: Terraform Init
+        run: terraform init
+        env:
+          GOOGLE_CREDENTIALS: '${{ secrets.GCP_SA_KEY }}'
+      - name: Terraform Apply
+        if: github.ref == 'refs/heads/dev' && github.event_name == 'push'
+        run: terraform apply -auto-approve
+        env:
+          GOOGLE_CREDENTIALS: '${{ secrets.GCP_SA_KEY }}'
 
