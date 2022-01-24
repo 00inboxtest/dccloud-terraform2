@@ -23,10 +23,10 @@ jobs:
   terraform_init:
     name: Terraform Init
     runs-on: ubuntu-latest
-    # defaults:
-    #   run:
-    #     shell: bash
-    #     working-directory: ./setup
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./setup
     # needs: terraform 
     steps:
       - name: Checkout
@@ -39,10 +39,10 @@ jobs:
   terraform_plan:
     name: Terraform Plan
     runs-on: ubuntu-latest
-    # defaults:
-    #   run:
-    #     shell: bash
-    #     working-directory: ./setup
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./setup
     # needs: terraform
     steps:
       - name: Checkout
