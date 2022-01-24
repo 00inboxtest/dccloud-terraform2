@@ -36,6 +36,23 @@ jobs:
         env:
           GOOGLE_CREDENTIALS: '${{ secrets.GCP_SA_KEY }}'
 
+  terraform_format:
+    name: Terraform Plan format
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./setup
+    needs: terraform_init
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+      - name: Terraform Plan format
+        id: fmt
+        run: terraform fmt -no-color
+        env:
+          GOOGLE_CREDENTIALS: '${{ secrets.GCP_SA_KEY }}'
+
   terraform_plan:
     name: Terraform Plan
     runs-on: ubuntu-latest
@@ -43,7 +60,7 @@ jobs:
       run:
         shell: bash
         working-directory: ./setup
-    needs: terraform_init
+    needs: terraform_format
     steps:
       - name: Checkout
         uses: actions/checkout@master
