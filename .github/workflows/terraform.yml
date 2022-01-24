@@ -27,7 +27,6 @@ jobs:
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v1
 
-
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
     - name: Terraform Init
       run: terraform init
@@ -36,12 +35,25 @@ jobs:
 
     # Generates an execution plan for Terraform
     - name: Terraform Plan
-      run: terraform plan -out=tfplan
-      env:
-        GOOGLE_CREDENTIALS: ${{ secrets.GCP_SA_KEY }}
+      run: terraform plan -lock=false -out terraform.plan
 
       # On push to main, build or change infrastructure according to Terraform configuration files
       # Note: It is recommended to set up a required "strict" status check in your repository for "Terraform Cloud". See the documentation on "strict" required status checks for more information: https://help.github.com/en/github/administering-a-repository/types-of-required-status-checks
+
+    # generate plain output
+    - name: Terraform show
+      run: terraform show -no-color terraform.plan > terraform.text
+  
+      # showing an execution plan for Terraform
+    - name: Terraform show
+      run: terraform show -json terraform.plan > terraform.json
+      
+    # - name: Terraform show
+    #   uses: ahmadnassri/action-terraform-report@v3
+    #     with:
+    #       # tell the action the plan outputs
+    #       terraform-text: ${{ github.workspace }}/terraform.text
+    #       terraform-json: ${{ github.workspace }}/terraform.json
 
   terraform_apply:
     name: 'Terraform Apply'
