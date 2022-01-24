@@ -20,6 +20,6 @@ locals {
 #  source           = "../modules/vpc2"
 #}
 
-module "vpc_network" {
+module "vpc" {
   source = "../modules/vpc"
 }
