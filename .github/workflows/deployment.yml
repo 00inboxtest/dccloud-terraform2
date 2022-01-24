@@ -1,0 +1,127 @@
+name: Terraform Gitaction
+
+'on':
+  push:
+    branches:
+      - dev
+  pull_request: null
+
+jobs:
+  terraform:   ###  Terraform plan Initialize  ###
+    name: Terraform Initialize
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./setup
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Terraform Initialize
+        uses: hashicorp/setup-terraform@v1
+      - name: Terraform Init
+        run: terraform init
+        env:
+          GOOGLE_CREDENTIALS: '${{ secrets.GCP_SA_KEY }}'
+
+  terraform_format: ### Terraform plan formatting ###
+    name: Terraform formating
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./setup
+    needs: terraform
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+      - name: Terraform Plan format
+        id: fmt
+        run: terraform fmt 
+        env:
+          GOOGLE_CREDENTIALS: '${{ secrets.GCP_SA_KEY }}'
+
+  terraform_plan: ### Terraform plan creating ###
+    name: Terraform Plan
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./setup
+    needs: terraform_format
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+      - name: Terraform Init
+        run: terraform init
+        env:
+          GOOGLE_CREDENTIALS: '${{ secrets.GCP_SA_KEY }}'
+      - name: Terraform Plan
+        id: plan
+        run: terraform plan
+        env:
+          GOOGLE_CREDENTIALS: '${{ secrets.GCP_SA_KEY }}'
+
+  terraform_plan_validate: ### Terraform plan validate ###
+    name: Terraform Plan validate
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./setup
+    needs: terraform_plan
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+      - name: Terraform Init
+        run: terraform init
+        env:
+          GOOGLE_CREDENTIALS: '${{ secrets.GCP_SA_KEY }}'
+      - name: Terraform Plan validate
+        id: validate
+        run: terraform validate 
+        env:
+          GOOGLE_CREDENTIALS: '${{ secrets.GCP_SA_KEY }}'
+
+  terraform_plan_show: ### Terraform plan Show ###
+    name: Terraform Plan show
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./setup
+    needs: terraform_plan_validate
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+      - name: Terraform Init
+        run: terraform init
+        env:
+          GOOGLE_CREDENTIALS: '${{ secrets.GCP_SA_KEY }}'
+      - name: Terraform Plan show
+        id: show
+        run: terraform show -json
+        env:
+          GOOGLE_CREDENTIALS: '${{ secrets.GCP_SA_KEY }}'
+     
+  terraform_apply: ### Terraform plan deploy ###
+    name: Terraform Apply
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./setup
+    needs: terraform_plan
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+      - name: Terraform Init
+        run: terraform init
+        env:
+          GOOGLE_CREDENTIALS: '${{ secrets.GCP_SA_KEY }}'
+      - name: Terraform Apply
+        if: github.ref == 'refs/heads/dev' && github.event_name == 'push'
+        run: terraform apply -auto-approve
+        env:
+          GOOGLE_CREDENTIALS: '${{ secrets.GCP_SA_KEY }}'
+
