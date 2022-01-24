@@ -44,23 +44,23 @@ jobs:
       # Note: It is recommended to set up a required "strict" status check in your repository for "Terraform Cloud". See the documentation on "strict" required status checks for more information: https://help.github.com/en/github/administering-a-repository/types-of-required-status-checks
 
     # generate plain output
-    - name: Terraform show
+    - name: Terraform genrate plan with txt file
       run: terraform show -no-color terraform.plan > terraform.text
       env:
         GOOGLE_CREDENTIALS: ${{ secrets.GCP_SA_KEY }}
 
       # showing an execution plan for Terraform
-    - name: Terraform show
+    - name: Terraform show 
       run: terraform show -json terraform.plan > terraform.json
       env:
         GOOGLE_CREDENTIALS: ${{ secrets.GCP_SA_KEY }}
 
-    # - name: Terraform show
-    #   uses: ahmadnassri/action-terraform-report@v3
-    #     with:
-    #       # tell the action the plan outputs
-    #       terraform-text: ${{ github.workspace }}/terraform.text
-    #       terraform-json: ${{ github.workspace }}/terraform.json
+    - name: Terraform show
+      uses: ahmadnassri/action-terraform-report@v3
+      with:
+          # tell the action the plan outputs
+          terraform-text: ${{ github.workspace }}/terraform.text
+          terraform-json: ${{ github.workspace }}/terraform.json
 
   terraform_apply:
     name: 'Terraform Apply'
