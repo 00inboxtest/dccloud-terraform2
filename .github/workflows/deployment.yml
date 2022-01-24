@@ -7,8 +7,8 @@ name: Terraform Gitaction
   pull_request: null
 
 jobs:
-  terraform:   ### Terraform plan Setup ###
-    name: Terraform Setup
+  terraform:   ###  Terraform plan Initialize  ###
+    name: Terraform Initialize
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -17,33 +17,21 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Setup Terraform
+      - name: Terraform Initialize
         uses: hashicorp/setup-terraform@v1
-
-  terraform_init: ### Terraform plan Initialize ###
-    name: Terraform Initialize
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        shell: bash
-        working-directory: ./setup
-    needs: terraform 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@master
       - name: Terraform Init
         run: terraform init
         env:
           GOOGLE_CREDENTIALS: '${{ secrets.GCP_SA_KEY }}'
 
   terraform_format: ### Terraform plan formatting ###
-    name: Terraform Plan formating
+    name: Terraform formating
     runs-on: ubuntu-latest
     defaults:
       run:
         shell: bash
         working-directory: ./setup
-    needs: terraform_init
+    needs: terraform
     steps:
       - name: Checkout
         uses: actions/checkout@master
@@ -123,7 +111,7 @@ jobs:
       run:
         shell: bash
         working-directory: ./setup
-    needs: terraform
+    needs: terraform_plan
     steps:
       - name: Checkout
         uses: actions/checkout@master
