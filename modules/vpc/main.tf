@@ -1,6 +1,6 @@
 
 resource "google_compute_network" "vpc_network" {
-  name = "terraform-networks"
+  name = "terraform-networks21"
 }
 
 resource "google_compute_subnetwork" "public-subnetwork" {

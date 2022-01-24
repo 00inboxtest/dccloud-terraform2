@@ -13,7 +13,6 @@ locals {
 
 #module "iam" {
 #  source           = "../modules/iam"
-#  suffix           = local.suffix
 #}
 
 #module "vpc2" {
