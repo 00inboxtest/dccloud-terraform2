@@ -1,134 +1,98 @@
-name: Terraform Gitaction
+name: 'Terraform Gitaction'
 
-'on':
+on:
   push:
     branches:
-      - main
-  pull_request: null
+    - dev
+
+  pull_request:
 
 jobs:
-  terraform:   ###  Terraform plan Initialize  ###
-    name: Terraform Initialize
+  terraform:
+    name: 'Terraform'
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        shell: bash
-        working-directory: ./setup
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Terraform Initialize
-        uses: hashicorp/setup-terraform@v1
-      - name: Terraform Init
-        run: terraform init
-        env:
-          GOOGLE_CREDENTIALS: '${{ secrets.GCP_SA_KEY }}'
 
-  terraform_plan: ### Terraform plan creating ###
-    name: Terraform Plan
+#    # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./setup    ####please chnage folder name as per github repo####################
+
+    steps:
+    # Checkout the repository to the GitHub Actions runner
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v1
+
+    # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
+    - name: Terraform Init
+      id : init
+      run: terraform init
+      env:
+        GOOGLE_CREDENTIALS: ${{ secrets.GCP_SA_KEY }}
+
+    # Generates an execution plan for Terraform
+    - name: Terraform Plan
+      id : plan
+      if: github.event_name == 'pull_request'
+      run: terraform plan -no-color
+      env:
+        GOOGLE_CREDENTIALS: ${{ secrets.GCP_SA_KEY }}
+
+    - name: Update Pull Request
+      uses: actions/github-script@0.9.0
+      if: github.event_name == 'pull_request'
+      env:
+        PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
+      with:
+        GOOGLE_CREDENTIALS: ${{ secrets.GCP_SA_KEY }}
+        script: |
+          const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
+          #### Terraform Initialization \`${{ steps.init.outcome }}\`
+          #### Terraform Plan \`${{ steps.plan.outcome }}\`
+          #### Terraform Validation \`${{ steps.validate.outcome }}\`
+
+          <details><summary>Show Plan</summary>
+
+          \`\`\`\n
+          ${process.env.PLAN}
+          \`\`\`
+
+          </details>
+
+          *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
+
+          github.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: output
+          })
+
+  terraform_apply:
+    name: 'Terraform Apply'
     runs-on: ubuntu-latest
     defaults:
       run:
         shell: bash
-        working-directory: ./setup
+        working-directory: ./setup  ########################please chnage folder name as per github repo####################
     needs: terraform
+#    environment:
+#      name: tf_apply  ########################please set environment secret in github repo settings and change name accordingly####################
     steps:
       - name: Checkout
         uses: actions/checkout@master
+
       - name: Terraform Init
         run: terraform init
         env:
-          GOOGLE_CREDENTIALS: '${{ secrets.GCP_SA_KEY }}'
-      - name: Terraform Plan
-        id: plan
-        run: terraform plan
-        env:
-          GOOGLE_CREDENTIALS: '${{ secrets.GCP_SA_KEY }}'
-      - name: Update Pull Request
-        uses: actions/github-script@0.9.0
-        if: github.event_name == 'pull_request'
-        env:
-          PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
-        with:
           GOOGLE_CREDENTIALS: ${{ secrets.GCP_SA_KEY }}
-          script: |
-            const output = `#### Terraform Format and Style \`${{ steps.fmt.outcome }}\`
-            #### Terraform Initialization \`${{ steps.init.outcome }}\`
-            #### Terraform Plan \`${{ steps.plan.outcome }}\`
-            #### Terraform Validation \`${{ steps.validate.outcome }}\`
-            <details><summary>Show Plan</summary>
-            \`\`\`\n
-            ${process.env.PLAN}
-            \`\`\`
-            </details>
-            *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
-            github.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: output
-            })
 
-  terraform_plan_validate: ### Terraform plan validate ###
-    name: Terraform Plan validate
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        shell: bash
-        working-directory: ./setup
-    needs: terraform_plan
-    steps:
-      - name: Checkout
-        uses: actions/checkout@master
-      - name: Terraform Init
-        run: terraform init
-        env:
-          GOOGLE_CREDENTIALS: '${{ secrets.GCP_SA_KEY }}'
-      - name: Terraform Plan validate
-        id: validate
-        run: terraform validate 
-        env:
-          GOOGLE_CREDENTIALS: '${{ secrets.GCP_SA_KEY }}'
-
-  terraform_plan_show: ### Terraform plan Show ###
-    name: Terraform Plan show
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        shell: bash
-        working-directory: ./setup
-    needs: terraform_plan_validate
-    steps:
-      - name: Checkout
-        uses: actions/checkout@master
-      - name: Terraform Init
-        run: terraform init
-        env:
-          GOOGLE_CREDENTIALS: '${{ secrets.GCP_SA_KEY }}'
-      - name: Terraform Plan show
-        id: show
-        run: terraform show -json
-        env:
-          GOOGLE_CREDENTIALS: '${{ secrets.GCP_SA_KEY }}'
-     
-  terraform_apply: ### Terraform plan deploy ###
-    name: Terraform Apply
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        shell: bash
-        working-directory: ./setup
-    needs: terraform_plan_show
-    steps:
-      - name: Checkout
-        uses: actions/checkout@master
-      - name: Terraform Init
-        run: terraform init
-        env:
-          GOOGLE_CREDENTIALS: '${{ secrets.GCP_SA_KEY }}'
       - name: Terraform Apply
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        if: github.ref == 'refs/heads/dev' && github.event_name == 'push'
         run: terraform apply -auto-approve
         env:
-          GOOGLE_CREDENTIALS: '${{ secrets.GCP_SA_KEY }}'
-
+          GOOGLE_CREDENTIALS: ${{ secrets.GCP_SA_KEY }}
