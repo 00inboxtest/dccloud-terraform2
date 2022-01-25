@@ -23,6 +23,8 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
 
+    - name: Check out code
+      uses: actions/checkout@main
     - name: Lint Terraform  ## linting the code
       uses: actionshub/terraform-lint@main
 
