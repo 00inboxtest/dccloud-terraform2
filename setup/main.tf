@@ -15,9 +15,9 @@ locals {
 #  source           = "../modules/iam"
 #}
 
-module "vpc2" {
-  source           = "../modules/vpc2"
-}
+#module "vpc2" {
+#  source           = "../modules/vpc2"
+#}
 
 #module "vpc" {
 #  source = "../modules/vpc"
