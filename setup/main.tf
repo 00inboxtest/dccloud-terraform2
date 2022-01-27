@@ -26,6 +26,6 @@ module "vpc2" {
 # for New service account
 module "sa" {
   source           = "../modules/sa"
-  gcp_project_id   = var.gcp_project_id
+ # gcp_project_id   = var.gcp_project_id
 
 }
