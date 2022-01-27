@@ -22,3 +22,8 @@ module "vpc2" {
 #module "vpc" {
 #  source = "../modules/vpc"
 #}
+
+# for New service account
+module "sa" {
+  source           = "../modules/sa"
+}
