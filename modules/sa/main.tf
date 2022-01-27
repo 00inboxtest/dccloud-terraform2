@@ -5,6 +5,6 @@ resource "google_project_service" "project" {
 }
 
 resource "google_service_account" "service_account" {
-  account_id   = "testRajpal"
+  account_id   = "service-account-id"
   display_name = "Service Account"
 }
