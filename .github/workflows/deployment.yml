@@ -3,7 +3,7 @@ name: 'Terraform Gitaction'
 on:
   push:
     branches:
-    - main
+    - test
 
   pull_request:
 
@@ -87,7 +87,7 @@ jobs:
           GOOGLE_CREDENTIALS: ${{ secrets.GCP_SA_KEY }}
 
       - name: Terraform Apply
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        if: github.ref == 'refs/heads/test' && github.event_name == 'push'
         run: terraform apply -auto-approve
         env:
           GOOGLE_CREDENTIALS: ${{ secrets.GCP_SA_KEY }}
