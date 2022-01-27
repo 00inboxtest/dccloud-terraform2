@@ -54,17 +54,12 @@ jobs:
           #### Terraform Initialization \`${{ steps.init.outcome }}\`
           #### Terraform Plan \`${{ steps.plan.outcome }}\`
           #### Terraform Validation \`${{ steps.validate.outcome }}\`
-
           <details><summary>Show Plan</summary>
-
           \`\`\`\n
           ${process.env.PLAN}
           \`\`\`
-
           </details>
-
           *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
-
           github.issues.createComment({
             issue_number: context.issue.number,
             owner: context.repo.owner,
