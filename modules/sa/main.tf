@@ -1,5 +1,5 @@
 resource "google_project_service" "project" {
-  project = "var.gcp_project_id"
+  project = "custom-valve-332208"
   service = "iam.googleapis.com"
   disable_dependent_services = true
 }
