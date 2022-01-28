@@ -24,6 +24,8 @@ locals {
 #}
 
 # for New service account
-#module "sa" {
-#  source           = "../modules/sa"
-#}
+module "sa" {
+  source           = "../modules/sa2"
+  suffix           = local.suffix
+  gcp_project_id   = var.gcp_project_id
+}
