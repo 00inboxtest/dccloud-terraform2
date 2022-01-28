@@ -19,3 +19,4 @@ resource "google_service_account" "instance_admin" {
   members = [
     "serviceAccount:${google_service_account.instance_admin.email}"
   ]
+ }
