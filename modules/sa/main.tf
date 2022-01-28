@@ -13,8 +13,9 @@ resource "google_service_account" "sa-name" {
   display_name = "Service Account"
 }
 
-resource "google_project_iam_member" "firestore_owner_binding" {
+resource "google_project_iam_member" "iam" {
   project = local.project_id
-  role    = ["roles/storage.admin","roles/compute.networkAdmin"]
+  #role    = ["roles/storage.admin","roles/compute.networkAdmin"]
+  role    = "roles/compute.networkAdmin"
   member  = "serviceAccount:${google_service_account.sa-name.email}"
 }
