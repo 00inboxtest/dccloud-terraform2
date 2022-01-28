@@ -31,5 +31,5 @@ locals {
 #}
 
 module "sa" {
-  source = "../modules/sa3"
+  source = "../modules/sa2"
 }
