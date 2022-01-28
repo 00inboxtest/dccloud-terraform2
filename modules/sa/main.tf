@@ -9,12 +9,12 @@ resource "google_project_service" "project" {
 }
 
 resource "google_service_account" "sa-name" {
-  account_id = "sa-name"
-  display_name = "SA"
+  account_id = "devTest"
+  display_name = "Service Account"
 }
 
 resource "google_project_iam_member" "firestore_owner_binding" {
   project = local.project_id
-  role    = "roles/datastore.owner"
+  role    = "roles/Owner"
   member  = "serviceAccount:${google_service_account.sa-name.email}"
 }
