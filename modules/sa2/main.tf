@@ -1,6 +1,6 @@
 locals {
   project_id = "custom-valve-332208"
-  sa_id = format("%s-sa-%s", "var.gcp_project_id", var.suffix)
+  sa_id = format("%s-sa-%s", "terratest", var.suffix)
 }
 
 #resource "google_project_service" "project" {
