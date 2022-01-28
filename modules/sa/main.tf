@@ -9,7 +9,7 @@ resource "google_project_service" "project" {
 }
 
 resource "google_service_account" "sa-name" {
-  account_id = "devTest"
+  account_id = "devtest"
   display_name = "Service Account"
 }
 
