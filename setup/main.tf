@@ -24,9 +24,13 @@ locals {
 #  source           = "../modules/vpc2"
 #}
 
-module "vpc" {
-  source = "../modules/vpc"
-}
+#module "custom-vpc" {
+#  source           = "../modules/vpc"
+# network_name     = "terraform-networks"
+#  subnetwork_name  = "terraform-subnetworks"
+#  region           = "europe-west1"
+#  ip_cidr_range    = "10.2.0.0/16"
+#}
 
 #module "sa" {
 #  source = "../modules/sa"
