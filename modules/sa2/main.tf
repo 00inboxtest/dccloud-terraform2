@@ -1,6 +1,8 @@
-locals {
-  sa_id = format("%s-sa-%s", "terratests", var.suffix)
-}
+#resource "google_project_service" "project" {
+#  project = var.project_id
+#  service = "iam.googleapis.com"
+#  disable_dependent_services = true
+#}
 
 resource "google_service_account" "gce_sa" {
   account_id   = var.sa_name
