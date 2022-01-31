@@ -5,8 +5,8 @@
 #}
 
 resource "google_service_account" "gce_sa" {
-  account_id   = var.sa_name
-  display_name = var.sa_name
+  account_id   = var.account_name
+  display_name = var.account_name
   timeouts {
     create = var.sa_timeout
   }

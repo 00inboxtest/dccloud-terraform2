@@ -31,5 +31,5 @@ locals {
 module "sa" {
   source           = "../modules/sa2"
   gcp_project_id   = var.gcp_project_id
-  sa_name          = "devTesting"
+  account_name     = "devTesting"
 }
