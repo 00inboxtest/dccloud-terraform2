@@ -2,6 +2,11 @@ locals {
   suffix = format("%s-%s", "tf", "2")
 }
 
+module "service_enable" {
+  source = "../modules/service_enable"
+  gcp_project_id   = var.gcp_project_id
+}
+
 module "gce" {
   source           = "../modules/gce"
   suffix           = local.suffix
