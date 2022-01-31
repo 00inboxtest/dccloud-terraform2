@@ -27,8 +27,9 @@ resource "google_project_iam_member" "editor" {
   member = "serviceAccount:${google_service_account.gce_sa.email}"
 }
 
-resource "google_project_iam_member" "editor" {
+resource "google_project_iam_member" "owner" {
   role   = "roles/owner"
   member = "serviceAccount:${google_service_account.gce_sa.email}"
 }
+
 data "google_client_config" "google_client" {}
