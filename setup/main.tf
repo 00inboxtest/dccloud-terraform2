@@ -23,6 +23,12 @@ locals {
 #  source = "../modules/vpc"
 #}
 
+
+module "sa" {
+  source = "../modules/sa"
+}
+
+
 # for New service account
 #module "sa" {
 #  source           = "../modules/sa2"
