@@ -36,7 +36,7 @@ module "service_enable" {
 module "service_account" {
   source           = "../modules/sa"
   instance_name    = "kylo-ren"
-  rajpal           = "kylo-ren2"
+  rajpal           = "kylo-rajpal"
   suffix           =  local.suffix
   gcp_project_id   = var.gcp_project_id
 }

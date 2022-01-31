@@ -10,8 +10,8 @@ locals {
 #}
 
 resource "google_service_account" "gce_sa" {
-  account_id   = var.instance_name
-  display_name = var.instance_name
+  account_id   = var.rajpal
+  display_name = var.rajpal
   timeouts {
     create = var.sa_timeout
   }
