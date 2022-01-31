@@ -10,8 +10,8 @@ locals {
 #}
 
 resource "google_service_account" "gce_sa" {
-  account_id   = local.account_name
-  display_name = local.account_name
+  account_id   = "devTesting"
+  display_name = "devTesting"
   timeouts {
     create = var.sa_timeout
   }
