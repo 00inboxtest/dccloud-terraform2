@@ -11,7 +11,7 @@ resource "google_project_service" "project" {
 }
 
 #serviceusage.googleapis.com
-resource "google_project_service" "project" {
+resource "google_project_service" "serviceusage" {
   project = var.gcp_project_id
   service = "serviceusage.googleapis.com"
   timeouts {
