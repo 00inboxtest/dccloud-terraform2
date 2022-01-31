@@ -1,6 +1,6 @@
 locals {
   suffix = format("%s-%s", "tf", "2")
-  account_name     = format("%s-%s","devTesting", "1")
+  account_name     = format("%s-%s","devtesting", "1")
 }
 
 #module "gce" {
@@ -31,7 +31,7 @@ locals {
 # for New service account
 module "sa" {
   source           = "../modules/sa2"
-  suffix           = local.suffix
-#  account_name     = local.account_name
+  suffix           =  local.suffix
+  account_name     = local.account_name
   gcp_project_id   = var.gcp_project_id
 }
