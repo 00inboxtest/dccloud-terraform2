@@ -1,5 +1,5 @@
 locals {
-  sa_id = format("%s-sa-%s", "terratest", var.suffix)
+  sa_id = format("%s-sa-%s", "terratests", var.suffix)
 }
 
 resource "google_service_account" "gce_sa" {
