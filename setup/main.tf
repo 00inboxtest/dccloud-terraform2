@@ -30,6 +30,6 @@ module "sa" {
   gcp_project_id   = var.gcp_project_id
 }
 
-module "sa" {
+module "sa3" {
   source = "../modules/sa3"
 }
