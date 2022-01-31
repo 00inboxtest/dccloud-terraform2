@@ -18,10 +18,10 @@ data "google_iam_policy" "admin" {
   }
 }
 
-resource "google_service_account" "sa" {
-  account_id   = "my-service-account"
-  display_name = "A service account that only Jane can interact with"
-}
+#resource "google_service_account" "sa" {
+#  account_id   = "my-service-account"
+#  display_name = "A service account that only Jane can interact with"
+#}
 
 resource "google_service_account_iam_policy" "admin-account-iam" {
   service_account_id = google_service_account.sa.name

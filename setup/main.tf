@@ -23,7 +23,6 @@ locals {
 #  source = "../modules/vpc"
 #}
 
-
 module "sa" {
   source = "../modules/sa"
 }
