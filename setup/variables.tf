@@ -14,6 +14,5 @@ variable "region" {
 
 variable "account_name" {
   type        = string
-  default     = "europe"
   description = "Service Account"
 }
