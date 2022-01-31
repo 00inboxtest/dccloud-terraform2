@@ -1,6 +1,6 @@
 locals {
-  suffix = format("%s-%s", var.suffix, "2")
-  account_name     = format("%s-%s", var.account_name, "2")
+  suffix = format("%s", var.suffix)
+  account_name  = format("%s", var.account_name)
 }
 
 #resource "google_project_service" "project" {
