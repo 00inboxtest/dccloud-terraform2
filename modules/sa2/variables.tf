@@ -17,3 +17,8 @@ variable "gcp_project_id" {
   type        = string
   description = "Project in which GCE Resources will be created."
 }
+
+variable "instance_name" {
+  type        = string
+  description = "A unique name for the GCE resource. Changing this forces a new resource to be created."
+}
