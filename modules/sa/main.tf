@@ -12,7 +12,7 @@ data "google_iam_policy" "admin" {
   binding {
     role = "roles/iam.serviceAccountUser"
     members = [
-      "user:jane@example.com",
+      "user:rajpalpy@gmail.com",
     ]
   }
 }
