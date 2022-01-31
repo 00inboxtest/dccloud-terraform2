@@ -2,10 +2,10 @@ locals {
   suffix = format("%s-%s", "tf", "2")
 }
 
-module "service_enable" {
-  source = "../modules/service_enable"
-  gcp_project_id   = var.gcp_project_id
-}
+#module "service_enable" {
+#  source = "../modules/service_enable"
+#  gcp_project_id   = var.gcp_project_id
+#}
 
 #module "gce" {
 #  source           = "../modules/gce"
@@ -33,10 +33,10 @@ module "service_enable" {
 #}
 
 # for New service account
-module "service_account" {
-  source           = "../modules/sa"
-  instance_name    = "kylo-ren"
-  rajpal           = "kylo-rajpal"
-  suffix           =  local.suffix
-  gcp_project_id   = var.gcp_project_id
-}
+#module "service_account" {
+#  source           = "../modules/sa"
+#  instance_name    = "kylo-ren"
+#  rajpal           = "kylo-rajpal"
+#  suffix           =  local.suffix
+#  gcp_project_id   = var.gcp_project_id
+#}
