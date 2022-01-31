@@ -10,7 +10,7 @@ resource "google_project_service" "project" {
 
 data "google_iam_policy" "admin" {
   binding {
-    role = "roles/iam.serviceAccountUser"
+    role = "roles/spanner.viewer"
     members = [
       "user:rajpalpy@gmail.com",
     ]
