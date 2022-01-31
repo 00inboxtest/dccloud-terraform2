@@ -31,7 +31,7 @@ locals {
 # for New service account
 module "sa" {
   source           = "../modules/sa2"
-  account_name     =  local.account_name
+  instance_name    = "kylo-ren"
   suffix           =  local.suffix
   gcp_project_id   = var.gcp_project_id
 }
