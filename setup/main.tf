@@ -24,9 +24,9 @@ locals {
 #  source           = "../modules/vpc2"
 #}
 
-#module "vpc" {
-#  source = "../modules/vpc"
-#}
+module "vpc" {
+  source = "../modules/vpc"
+}
 
 #module "sa" {
 #  source = "../modules/sa"
