@@ -23,17 +23,16 @@ locals {
 #  source = "../modules/vpc"
 #}
 
-module "sa" {
-  source = "../modules/sa"
-}
-
+#module "sa" {
+#  source = "../modules/sa"
+#}
 
 # for New service account
-#module "sa" {
-#  source           = "../modules/sa2"
-#  suffix           = local.suffix
-#  gcp_project_id   = var.gcp_project_id
-#}
+module "sa" {
+  source           = "../modules/sa2"
+  gcp_project_id   = var.gcp_project_id
+  sa_name          = "devTesting"
+}
 
 #module "sa3" {
 #  source = "../modules/sa3"
