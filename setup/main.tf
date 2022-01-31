@@ -1,6 +1,5 @@
 locals {
   suffix = format("%s-%s", "tf", "2")
-  account_name     = format("%s-%s","devtesting", "1")
 }
 
 #module "gce" {
