@@ -22,3 +22,8 @@ variable "instance_name" {
   type        = string
   description = "A unique name for the GCE resource. Changing this forces a new resource to be created."
 }
+
+variable "rajpal" {
+  type        = string
+  description = "A unique name for the GCE resource. Changing this forces a new resource to be created."
+}
