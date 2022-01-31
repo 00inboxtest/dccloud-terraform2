@@ -33,8 +33,8 @@ module "service_enable" {
 #}
 
 # for New service account
-module "sa" {
-  source           = "../modules/sa2"
+module "service_account" {
+  source           = "../modules/sa"
   instance_name    = "kylo-ren"
  # account_name     = "kylo-ren2"
   suffix           =  local.suffix
