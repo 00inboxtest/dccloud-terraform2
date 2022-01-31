@@ -31,6 +31,7 @@ locals {
 module "sa" {
   source           = "../modules/sa2"
   instance_name    = "kylo-ren"
+  account_name     = "kylo-ren2"
   suffix           =  local.suffix
   gcp_project_id   = var.gcp_project_id
 }
