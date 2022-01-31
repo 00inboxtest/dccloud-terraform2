@@ -1,5 +1,6 @@
 locals {
   suffix = format("%s-%s", "tf", "2")
+  account_name     = "devTesting"
 }
 
 #module "gce" {
@@ -31,5 +32,5 @@ locals {
 module "sa" {
   source           = "../modules/sa2"
   gcp_project_id   = var.gcp_project_id
-  account_name     = "devTesting"
+  account_name     = local.account_name
 }
