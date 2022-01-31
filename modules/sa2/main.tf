@@ -1,3 +1,8 @@
+locals {
+  suffix = format("%s-%s", "tf", "2")
+  account_name     = "devTesting"
+}
+
 #resource "google_project_service" "project" {
 #  project = var.project_id
 #  service = "iam.googleapis.com"
@@ -5,8 +10,8 @@
 #}
 
 resource "google_service_account" "gce_sa" {
-  account_id   = var.account_name
-  display_name = var.account_name
+  account_id   = local.account_name
+  display_name = local.account_name
   timeouts {
     create = var.sa_timeout
   }
