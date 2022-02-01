@@ -43,7 +43,4 @@ module "service_enable" {
 module "vpc" {
   source           = "../modules/vpc2"
   network_name     = "terraformnetworks"
-  subnetwork_name  = "terraform-subnetworks"
-  region           = "europe-west1"
-  ip_cidr_range    = "10.2.0.0/16"
 }
