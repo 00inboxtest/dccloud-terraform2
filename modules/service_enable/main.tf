@@ -21,4 +21,12 @@ resource "google_project_service" "serviceusage" {
   disable_dependent_services = true
 }
 
+resource "google_project_service" "compute_api" {
+  service            = "compute.googleapis.com"
+  disable_on_destroy = false
+}
 
+resource "google_project_service" "networking_api" {
+  service            = "servicenetworking.googleapis.com"
+  disable_on_destroy = false
+}

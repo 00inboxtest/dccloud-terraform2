@@ -1,6 +1,6 @@
 locals {
   suffix = format("%s", var.suffix)
-  account_name  = format("%s", var.rajpal)
+  account_name  = format("%s", var.account_name)
 }
 
 #resource "google_project_service" "project" {
@@ -10,8 +10,8 @@ locals {
 #}
 
 resource "google_service_account" "gce_sa" {
-  account_id   = var.rajpal
-  display_name = var.rajpal
+  account_id   = var.account_name
+  display_name = var.account_name
   timeouts {
     create = var.sa_timeout
   }

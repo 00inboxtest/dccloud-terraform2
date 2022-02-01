@@ -12,16 +12,6 @@ locals {
   sa_id = format("%s-sa-%s", var.instance_name, var.suffix)
 }
 
-resource "google_project_service" "compute_api" {
-  service            = "compute.googleapis.com"
-  disable_on_destroy = false
-}
-
-resource "google_project_service" "networking_api" {
-  service            = "servicenetworking.googleapis.com"
-  disable_on_destroy = false
-}
-
 resource "google_service_account" "gce_sa" {
   account_id   = local.sa_id
   display_name = local.sa_id
