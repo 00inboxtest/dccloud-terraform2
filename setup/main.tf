@@ -9,13 +9,13 @@ module "service_enable" {
 }
 
 ########### custom VPC creation ###########
-module "custom-vpc" {
-  source           = "../modules/vpc"
-  network_name     = "terraformnetworks"
-  subnetwork_name  = "terraform-subnetworks"
-  region           = "europe-west1"
-  ip_cidr_range    = "10.2.0.0/16"
-}
+#module "custom-vpc" {
+#  source           = "../modules/vpc"
+#  network_name     = "terraformnetworks"
+#  subnetwork_name  = "terraform-subnetworks"
+#  region           = "europe-west1"
+#  ip_cidr_range    = "10.2.0.0/16"
+#}
 
 ######## compute instance creation #####
 #module "gce" {
