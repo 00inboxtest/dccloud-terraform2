@@ -40,7 +40,7 @@ module "service_enable" {
 #}
 
 ########### custom VPC creation ###########
-module "custom-vpc" {
+module "vpc" {
   source           = "../modules/vpc2"
   network_name     = "terraformnetworks"
   subnetwork_name  = "terraform-subnetworks"
