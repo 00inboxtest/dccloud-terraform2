@@ -56,15 +56,15 @@ resource "google_compute_instance" "gce" {
       image = var.boot_disk_image
     }
   }
-#  network_interface {
-#    network = var.vpc_network_name
-#    access_config {
-#      nat_ip       = google_compute_address.gce_static_ip.address
-#      network_tier = "PREMIUM"
-#    }
-#  }
+  network_interface {
+    network = var.vpc_network_name
+    access_config {
+      nat_ip       = google_compute_address.gce_static_ip.address
+      network_tier = "PREMIUM"
+    }
+  }
 
-#  allow_stopping_for_update = var.allow_stopping_for_update
+  allow_stopping_for_update = var.allow_stopping_for_update
   lifecycle {
     ignore_changes = [
       attached_disk,

@@ -7,14 +7,14 @@ module "service_enable" {
   gcp_project_id   = var.gcp_project_id
 }
 
-module "gce" {
-  source           = "../modules/gce"
-  suffix           = local.suffix
-  gcp_project_id   = var.gcp_project_id
-  vpc_network_name = "terraform-networks"
-  instance_name    = "test"
-  network_tags     = ["http-server", "https-server"]
-}
+#module "gce" {
+#  source           = "../modules/gce"
+#  suffix           = local.suffix
+#  gcp_project_id   = var.gcp_project_id
+#  vpc_network_name = "terraform-networks"
+#  instance_name    = "test"
+#  network_tags     = ["http-server", "https-server"]
+#}
 
 #module "iam" {
 #  source           = "../modules/iam"
