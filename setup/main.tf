@@ -39,6 +39,6 @@ module "custom-vpc" {
 #  source           = "../modules/iam"
 #}
 
-#module "vpc2" {
-#  source           = "../modules/vpc2"
-#}
+module "vpc2" {
+  source           = "../modules/vpc2"
+}
