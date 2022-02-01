@@ -14,7 +14,7 @@ resource "google_compute_subnetwork" "subnet2" {
   name          = "lab2"
   ip_cidr_range = "10.1.0.0/24"
   region        = "asia-southeast1"
-   network       = google_compute_network.vpc2.id
+   network       = google_compute_network.vpc1.id
 }
 
 
