@@ -32,13 +32,18 @@ module "service_enable" {
 #  source           = "../modules/sa"
 #  account_name     = "dev-test"
 #  suffix           =  local.suffix
-  gcp_project_id   = var.gcp_project_id
-}
+#  gcp_project_id   = var.gcp_project_id
+#}
 
 #module "iam" {
 #  source           = "../modules/iam"
 #}
 
-module "vpc2" {
+########### custom VPC creation ###########
+module "custom-vpc" {
   source           = "../modules/vpc2"
+  network_name     = "terraformnetworks"
+  subnetwork_name  = "terraform-subnetworks"
+  region           = "europe-west1"
+  ip_cidr_range    = "10.2.0.0/16"
 }
