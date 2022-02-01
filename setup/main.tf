@@ -27,12 +27,12 @@ module "custom-vpc" {
 #}
 
 ######## for New service account creation #####
-module "service_account" {
-  source           = "../modules/sa"
-  account_name     = "dev-test"
-  suffix           =  local.suffix
-  gcp_project_id   = var.gcp_project_id
-}
+#module "service_account" {
+#  source           = "../modules/sa"
+#  account_name     = "dev-test"
+#  suffix           =  local.suffix
+#  gcp_project_id   = var.gcp_project_id
+#}
 
 #module "iam" {
 #  source           = "../modules/iam"
@@ -48,7 +48,6 @@ module "vpc" {
     version = "~> 2.0.0"
     project_id   = "custom-valve-332208"
     network_name = "example-vpc"
-
     subnets = [
         {
             subnet_name           = "subnet-01"
@@ -73,7 +72,6 @@ module "vpc" {
             subnet_flow_logs_metadata = "INCLUDE_ALL_METADATA"
         }
     ]
-
     secondary_ranges = {
         subnet-01 = [
             {
@@ -81,7 +79,5 @@ module "vpc" {
                 ip_cidr_range = "192.168.64.0/24"
             },
         ]
-
-        subnet-02 = []
     }
 }
