@@ -1,6 +1,7 @@
 locals {
   suffix = format("%s-%s", "tf", "2")
 }
+
 ######### service enbale #######
 module "service_enable" {
   source = "../modules/service_enable"
