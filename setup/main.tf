@@ -42,5 +42,4 @@ module "service_enable" {
 ########### custom VPC creation ###########
 module "vpc" {
   source           = "../modules/vpc2"
-  network_name     = "terraformnetworks"
 }
